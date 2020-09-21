@@ -8,6 +8,7 @@
             :bg-color="msg.from=='me'?'':'primary'"
             :text-color="msg.from=='me'?'':'white'"
             :sent="msg.from=='me'"
+            text-sanitize
          />
       </div>
       <q-footer>

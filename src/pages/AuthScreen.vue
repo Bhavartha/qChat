@@ -1,8 +1,19 @@
 <template>
    <q-page class="flex">
-      <div>
-         
-      </div>
+      <q-card class="my-card full-width q-pa-md">
+         <q-tabs v-model="tab" dense class="bg-grey-3" align="justify" narrow-indicator>
+            <q-tab name="login" label="Login" />
+            <q-tab name="register" label="Register" />
+         </q-tabs>
+         <q-tab-panels animated v-model="tab">
+            <q-tab-panel name="login">
+               <auth-component :tab="tab" />
+            </q-tab-panel>
+            <q-tab-panel name="register">
+               <auth-component :tab="tab" />
+            </q-tab-panel>
+         </q-tab-panels>
+      </q-card>
    </q-page>
 </template>
 
@@ -10,8 +21,11 @@
 export default {
    data() {
       return {
-         model: "one",
+         tab: "login",
       };
+   },
+   components: {
+      "auth-component": require("components/AuthComponent").default,
    },
 };
 </script>
