@@ -1,4 +1,4 @@
-# qChat (qchat)
+# qChat
 
 Cross platform and easy to use Chat App
 
