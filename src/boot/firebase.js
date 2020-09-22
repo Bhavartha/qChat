@@ -16,7 +16,7 @@ var firebaseConfig = {
 
 // Initialize Firebase
 let fireApp = firebase.initializeApp(firebaseConfig);
-let fireAuth = fireApp.auth
-let fireDb = fireApp.database
+let fireAuth = fireApp.auth()
+let fireDb = fireApp.database()
 
 export { fireAuth, fireDb }

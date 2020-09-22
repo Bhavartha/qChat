@@ -23,13 +23,13 @@ export default {
       };
    },
    methods:{
-      ...mapActions('store',['registerUser']),
+      ...mapActions('store',['registerUser','loginUser']),
        formSubmit(){
            if(this.tab=='login'){
-               console.log("Logged")
+               this.loginUser(this.formData)
            }
            else{
-               this.registerUser()
+               this.registerUser(this.formData)
            }
        }
    }
