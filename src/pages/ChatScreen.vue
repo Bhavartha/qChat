@@ -5,9 +5,9 @@
             v-for="msg in messages"
             :key="msg"
             :text="[msg.text]"
-            :bg-color="msg.from=='me'?'':'primary'"
-            :text-color="msg.from=='me'?'':'white'"
-            :sent="msg.from=='me'"
+            :bg-color="msg.sent?'':'primary'"
+            :text-color="msg.sent?'':'white'"
+            :sent="msg.sent"
             text-sanitize
          />
       </div>
@@ -43,19 +43,19 @@ export default {
          messages: [
             {
                text: "Hello.",
-               from: "me",
+               sent:true,
             },
             {
                text: "Hi. Long time no see",
-               from: "them",
+               sent:false,
             },
             {
                text: "Lets meet sometime",
-               from: "me",
+               sent:true,
             },
             {
                text: "Yeah Sure!",
-               from: "them",
+               sent:false,
             },
          ],
       };
@@ -65,6 +65,6 @@ export default {
 
 <style lang="scss" scoped>
 .q-footer{
-    background-color: #fff;
+    background-color:transparent;
 }
 </style>

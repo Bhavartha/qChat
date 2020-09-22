@@ -1,6 +1,6 @@
 import * as firebase from "firebase/app"
 import "firebase/auth"
-import "firebase/firestore"
+import "firebase/database"
 
 
 var firebaseConfig = {
@@ -17,6 +17,6 @@ var firebaseConfig = {
 // Initialize Firebase
 let fireApp = firebase.initializeApp(firebaseConfig);
 let fireAuth = fireApp.auth
-let fireDb = fireApp.firestore
+let fireDb = fireApp.database
 
 export { fireAuth, fireDb }

@@ -1,0 +1,42 @@
+{
+    "users": {
+        "U1": {
+            "name": "Bhavartha",
+            "email": "bk@gmail.com",
+            "online": true,
+            "dp": "https://picsum.photos/100"
+        },
+        "U2": {
+            "name": "Xyz",
+            "email": "xyz@gmail.com",
+            "online": true,
+            "dp": "https://picsum.photos/100"
+        }
+    },
+    "chats": {
+        "U1": {
+            "U2": {
+                "M1": {
+                    "text": "Hello",
+                    "sent": true
+                },
+                "M2": {
+                    "text": "Hi. Long time no see",
+                    "sent": false
+                }
+            }
+        },
+        "U2": {
+            "U1": {
+                "M1": {
+                    "text": "Hello",
+                    "sent": false
+                },
+                "M2": {
+                    "text": "Hi. Long time no see",
+                    "sent": true
+                }
+            }
+        }
+    }
+}
