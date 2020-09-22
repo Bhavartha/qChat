@@ -1,12 +1,17 @@
+import Vue from 'vue'
 import { fireAuth, fireDb, fireStorage } from "boot/firebase"
 
 const state = {
-    userDetails: {}
+    userDetails: {},
+    users: {}
 }
 
 const mutations = {
     setUserDetails(state, payload) {
         state.userDetails = payload
+    },
+    addUser(state, payload) {
+        Vue.set(state.users, payload.uid, payload.userDetails)
     }
 }
 
@@ -14,14 +19,15 @@ const actions = {
     async registerUser({ }, payload) {
         try {
             await fireAuth.createUserWithEmailAndPassword(payload.email, payload.password)
-            let uid = fireAuth.currentUser.uid;
+            let uid = await fireAuth.currentUser.uid;
             let dp = await fireStorage.ref().child("DP").child("default-profile-picture.png").getDownloadURL()
-            fireDb.ref(`users/${uid}`).set({
+            await fireDb.ref(`users/${uid}`).set({
                 name: payload.name,
                 email: payload.email,
                 online: true,
                 dp: dp,
             })
+
         } catch (error) {
             alert(error.message)
         }
@@ -43,9 +49,10 @@ const actions = {
     handleAuthChanges({ commit, dispatch, state }) {
         fireAuth.onAuthStateChanged((user) => {
             if (user) {
+                
                 // Logged in
                 let uid = fireAuth.currentUser.uid
-                fireDb.ref(`users/${uid}`).once('value', snapshot => {
+                fireDb.ref(`users/${uid}`).once('value', (snapshot) => {
                     let userDetails = snapshot.val()
                     commit('setUserDetails', {
                         name: userDetails.name,
@@ -60,28 +67,41 @@ const actions = {
                         online: true
                     }
                 })
-                this.$router.replace("/")
+                dispatch('firebaseGetUsers')
+                this.$router.replace("/", () => { })
             }
             else {
                 //Logged out
-                dispatch('firebaseUpdateUser', {
-                    uid: state.userDetails.uid,
-                    updates: {
-                        online: false
-                    }
-                })
+                if (!!state.userDetails) {
+                    dispatch('firebaseUpdateUser', {
+                        uid: state.userDetails.uid,
+                        updates: {
+                            online: false
+                        }
+                    })
+                }
                 commit('setUserDetails', {})
-                this.$router.replace("/auth")
+                this.$router.replace("/auth", () => { })
             }
         })
     },
-    firebaseUpdateUser({},payload){
+    firebaseUpdateUser({ }, payload) {
         fireDb.ref(`users/${payload.uid}`).update(payload.updates)
+    },
+    firebaseGetUsers({ commit }) {
+        fireDb.ref("users").on("child_added", snapshot => {
+            let uid = snapshot.key
+            let userDetails = snapshot.val()
+            console.log(uid, userDetails);
+            commit('addUser', {
+                uid, userDetails
+            })
+        })
     }
 }
 
 const getters = {
-
+    users: state => { return state.users }
 }
 
 export default {

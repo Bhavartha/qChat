@@ -1,10 +1,10 @@
 <template>
    <q-page class="flex">
       <q-list class="full-width" separator>
-         <q-item v-for="user in users" :key="user.id" clickable v-ripple to="/chat">
+         <q-item v-for="(user,key) in users" :key="key" clickable v-ripple to="/chat">
             <q-item-section avatar>
                <q-avatar>
-                  <img :src="userDetails.dp" />
+                  <img :src="user.dp" />
                </q-avatar>
             </q-item-section>
             <q-item-section>
@@ -19,36 +19,15 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
    computed: {
-      ...mapState("store", ["userDetails"]),
+      ...mapGetters("store",["users"])
    },
    data() {
       return {
-         users: [
-            {
-               id: 1,
-               name: "Ruddy Jedrzej",
-               online: true,
-            },
-            {
-               id: 2,
-               name: "Mallorie Alessandrini",
-               online: true,
-            },
-            {
-               id: 3,
-               name: "Elisabetta Wicklen",
-               online: false,
-            },
-            {
-               id: 4,
-               name: "Seka Fawdrey",
-               online: true,
-            },
-         ],
+         
       };
    },
 };
