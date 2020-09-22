@@ -4,12 +4,11 @@
          <q-item v-for="user in users" :key="user.id" clickable v-ripple to="/chat">
             <q-item-section avatar>
                <q-avatar>
-                  <img src="https://picsum.photos/100" />
+                  <img :src="userDetails.dp" />
                </q-avatar>
             </q-item-section>
             <q-item-section>
                <q-item-label>{{ user.name }}</q-item-label>
-               <!-- <q-item-label caption lines="1">{{ user.email }}</q-item-label> -->
             </q-item-section>
             <q-item-section side>
                <q-avatar :color="user.online?'green':'red'" size="10px" />
@@ -20,7 +19,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
+   computed: {
+      ...mapState("store", ["userDetails"]),
+   },
    data() {
       return {
          users: [
@@ -51,10 +55,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.q-list{
-  padding: 0 10px;
-  .q-item{
-    padding: 10px 5px;
-  }
+.q-list {
+   padding: 0 10px;
+   .q-item {
+      padding: 10px 5px;
+   }
 }
 </style>

@@ -8,6 +8,8 @@
                <q-icon name="chat" size="30px" class="flip-horizontal" />
                <q-toolbar-title>qChat</q-toolbar-title>
             </div>
+            <q-space />
+            <q-btn @click="logoutUser" icon="perm_identity" v-if="!!userDetails.uid" flat dense/>
          </q-toolbar>
       </q-header>
       <q-page-container>
@@ -17,11 +19,18 @@
 </template>
 
 <script>
+
+import {mapState,mapActions} from 'vuex'
+
 export default {
    data() {
       return {};
    },
+   methods:{
+      ...mapActions('store',['logoutUser'])
+   },
    computed: {
+      ...mapState('store',['userDetails']),
       getScreen() {
          switch (this.$route.fullPath) {
             case "/chat":
