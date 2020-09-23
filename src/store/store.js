@@ -16,21 +16,20 @@ const mutations = {
 }
 
 const actions = {
-    async registerUser({ }, payload) {
-        try {
-            await fireAuth.createUserWithEmailAndPassword(payload.email, payload.password)
-            let uid = await fireAuth.currentUser.uid;
-            let dp = await fireStorage.ref().child("DP").child("default-profile-picture.png").getDownloadURL()
-            await fireDb.ref(`users/${uid}`).set({
-                name: payload.name,
-                email: payload.email,
-                online: true,
-                dp: dp,
+    registerUser({ }, payload) {
+        fireAuth.createUserWithEmailAndPassword(payload.email, payload.password)
+            .then((res) => {
+                let uid = fireAuth.currentUser.uid;
+                fireDb.ref(`users/${uid}`).set({
+                    name: payload.name,
+                    email: payload.email,
+                    online: true,
+                    dp: "https://firebasestorage.googleapis.com/v0/b/qchat-49362.appspot.com/o/DP%2Fdefault-profile-picture.png?alt=media&token=b4647306-18e3-4f38-aa44-f13cddb71355",
+                })
             })
-
-        } catch (error) {
-            alert(error.message)
-        }
+            .catch((error) => {
+                alert(error.message)
+            })
     },
     async loginUser({ }, payload) {
         try {
@@ -49,7 +48,6 @@ const actions = {
     handleAuthChanges({ commit, dispatch, state }) {
         fireAuth.onAuthStateChanged((user) => {
             if (user) {
-                
                 // Logged in
                 let uid = fireAuth.currentUser.uid
                 fireDb.ref(`users/${uid}`).once('value', (snapshot) => {
@@ -72,21 +70,21 @@ const actions = {
             }
             else {
                 //Logged out
-                if (!!state.userDetails) {
-                    dispatch('firebaseUpdateUser', {
-                        uid: state.userDetails.uid,
-                        updates: {
-                            online: false
-                        }
-                    })
-                }
+                dispatch('firebaseUpdateUser', {
+                    uid: state.userDetails.uid,
+                    updates: {
+                        online: false
+                    }
+                })
                 commit('setUserDetails', {})
                 this.$router.replace("/auth", () => { })
             }
         })
     },
     firebaseUpdateUser({ }, payload) {
-        fireDb.ref(`users/${payload.uid}`).update(payload.updates)
+        if (payload.uid) {
+            fireDb.ref(`users/${payload.uid}`).update(payload.updates)
+        }
     },
     firebaseGetUsers({ commit }) {
         fireDb.ref("users").on("child_added", snapshot => {
