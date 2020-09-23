@@ -12,6 +12,9 @@ const mutations = {
     },
     addUser(state, payload) {
         Vue.set(state.users, payload.uid, payload.userDetails)
+    },
+    updateUser(state, payload) {
+        Object.assign(state.users[payload.uid], payload.userDetails)
     }
 }
 
@@ -90,16 +93,31 @@ const actions = {
         fireDb.ref("users").on("child_added", snapshot => {
             let uid = snapshot.key
             let userDetails = snapshot.val()
-            console.log(uid, userDetails);
             commit('addUser', {
                 uid, userDetails
             })
-        })
+        }),
+            fireDb.ref("users").on("child_changed", snapshot => {
+                let uid = snapshot.key
+                let userDetails = snapshot.val()
+                commit('updateUser', {
+                    uid, userDetails
+                })
+            })
     }
 }
 
 const getters = {
-    users: state => { return state.users }
+
+    users: state => {
+        let _users = {};
+        Object.keys(state.users).forEach(key => {
+            if (key !== state.userDetails.uid) {
+                _users[key] = state.users[key]
+            }
+        })
+        return _users
+    }
 }
 
 export default {
