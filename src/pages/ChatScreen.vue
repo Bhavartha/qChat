@@ -2,13 +2,14 @@
    <q-page class="flex column">
       <div class="q-py-md q-px-lg column col">
          <q-chat-message
-            v-for="msg in messages"
-            :key="msg"
+            v-for="(msg,key) in messages"
+            :key="key"
             :text="[msg.text]"
             :bg-color="msg.sent?'':'primary'"
             :text-color="msg.sent?'':'white'"
             :sent="msg.sent"
             text-sanitize
+            
          />
       </div>
       <q-footer>
@@ -33,7 +34,7 @@
 export default {
     methods:{
         sendMsg(){
-            this.messages.push({text:this.newMsg,from:"me"})
+            this.messages.push({text:this.newMsg,sent:true})
             this.newMsg=""
         }
     },
@@ -65,6 +66,6 @@ export default {
 
 <style lang="scss" scoped>
 .q-footer{
-    background-color:transparent;
+    background-color:white;
 }
 </style>

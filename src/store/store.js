@@ -15,6 +15,9 @@ const mutations = {
     },
     updateUser(state, payload) {
         Object.assign(state.users[payload.uid], payload.userDetails)
+    },
+    updateUserDetails(state, payload) {
+        Object.assign(state.userDetails, payload)
     }
 }
 
@@ -104,11 +107,20 @@ const actions = {
                     uid, userDetails
                 })
             })
+    },
+    updateUserDetails({ commit }, payload) {
+        let uid = fireAuth.currentUser.uid
+        fireDb.ref(`users/${uid}`)
+            .update
+            ({
+                name: payload.name,
+                dp: payload.dp
+            })
+        commit('updateUserDetails', payload)
     }
 }
 
 const getters = {
-
     users: state => {
         let _users = {};
         Object.keys(state.users).forEach(key => {
