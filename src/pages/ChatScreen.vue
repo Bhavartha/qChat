@@ -9,7 +9,6 @@
             :text-color="msg.sent?'':'white'"
             :sent="msg.sent"
             text-sanitize
-            
          />
       </div>
       <q-footer>
@@ -31,12 +30,16 @@
 </template>
 
 <script>
+
+import { mapActions } from "vuex";
+
 export default {
     methods:{
+       ...mapActions('store',['firebaseGetMessages']),
         sendMsg(){
             this.messages.push({text:this.newMsg,sent:true})
             this.newMsg=""
-        }
+        },
     },
    data() {
       return {
@@ -61,6 +64,10 @@ export default {
          ],
       };
    },
+   mounted(){
+      let oid = this.$route.params.oid
+      this.firebaseGetMessages(oid)
+   }
 };
 </script>
 

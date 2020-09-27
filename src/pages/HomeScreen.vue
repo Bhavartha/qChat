@@ -6,7 +6,7 @@
                <q-icon name="search" />
             </template>
          </q-input>
-         <q-item v-for="(user,key) in filteredUsers" :key="key" clickable v-ripple to="/chat">
+         <q-item v-for="(user,key) in filteredUsers" :key="key" clickable v-ripple :to="'/chat/'+key">
             <q-item-section avatar>
                <q-avatar>
                   <img :src="user.dp" />

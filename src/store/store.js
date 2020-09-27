@@ -3,7 +3,8 @@ import { fireAuth, fireDb, fireStorage } from "boot/firebase"
 
 const state = {
     userDetails: {},
-    users: {}
+    users: {},
+    messages: {}
 }
 
 const mutations = {
@@ -18,6 +19,9 @@ const mutations = {
     },
     updateUserDetails(state, payload) {
         Object.assign(state.userDetails, payload)
+    },
+    addMessage(state, payload) {
+        Vue.set(state.messages, payload.messageId, payload.messageDetails)
     }
 }
 
@@ -117,6 +121,16 @@ const actions = {
                 dp: payload.dp
             })
         commit('updateUserDetails', payload)
+    },
+    firebaseGetMessages({ commit }, oid) {
+        let uid = fireAuth.currentUser.uid
+        fireDb.ref(`chats/${uid}/{oid}`).on('child_added', snapshot => {
+            let messageDetails = snapshot.val()
+            let messageId = snapshot.key()
+            commit('addMessage', {
+                messageId, messageDetails
+            })
+        })
     }
 }
 
