@@ -4,7 +4,7 @@ import { fireAuth, fireDb, fireStorage } from "boot/firebase"
 const state = {
     userDetails: {},
     users: {},
-    messages: {}
+    messages: {},
 }
 
 const mutations = {
@@ -122,11 +122,11 @@ const actions = {
             })
         commit('updateUserDetails', payload)
     },
-    firebaseGetMessages({ commit }, oid) {
-        let uid = fireAuth.currentUser.uid
-        fireDb.ref(`chats/${uid}/{oid}`).on('child_added', snapshot => {
+    firebaseGetMessages({state, commit }, oid) {
+        let uid = state.userDetails.uid
+        fireDb.ref(`chats/${uid}/${oid}`).on('child_added', snapshot => {
             let messageDetails = snapshot.val()
-            let messageId = snapshot.key()
+            let messageId = snapshot.key
             commit('addMessage', {
                 messageId, messageDetails
             })

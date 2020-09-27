@@ -31,7 +31,7 @@
 
 <script>
 
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
     methods:{
@@ -44,29 +44,14 @@ export default {
    data() {
       return {
          newMsg: "",
-         messages: [
-            {
-               text: "Hello.",
-               sent:true,
-            },
-            {
-               text: "Hi. Long time no see",
-               sent:false,
-            },
-            {
-               text: "Lets meet sometime",
-               sent:true,
-            },
-            {
-               text: "Yeah Sure!",
-               sent:false,
-            },
-         ],
       };
    },
    mounted(){
       let oid = this.$route.params.oid
       this.firebaseGetMessages(oid)
+   },
+   computed:{
+      ...mapState('store', ['messages'])
    }
 };
 </script>
