@@ -35,7 +35,7 @@ import { mapActions, mapState } from "vuex";
 
 export default {
     methods:{
-       ...mapActions('store',['firebaseGetMessages']),
+       ...mapActions('store',['firebaseGetMessages','firebaseStopGettingMessages']),
         sendMsg(){
             this.messages.push({text:this.newMsg,sent:true})
             this.newMsg=""
@@ -52,6 +52,9 @@ export default {
    },
    computed:{
       ...mapState('store', ['messages'])
+   },
+   destroyed(){
+      this.firebaseStopGettingMessages()
    }
 };
 </script>

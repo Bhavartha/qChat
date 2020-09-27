@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import { fireAuth, fireDb, fireStorage } from "boot/firebase"
 
+let messagesRef
+
 const state = {
     userDetails: {},
     users: {},
@@ -22,6 +24,9 @@ const mutations = {
     },
     addMessage(state, payload) {
         Vue.set(state.messages, payload.messageId, payload.messageDetails)
+    },
+    clearMessages(state){
+        state.messages = {}
     }
 }
 
@@ -122,15 +127,22 @@ const actions = {
             })
         commit('updateUserDetails', payload)
     },
-    firebaseGetMessages({state, commit }, oid) {
+    firebaseGetMessages({ state, commit }, oid) {
         let uid = state.userDetails.uid
-        fireDb.ref(`chats/${uid}/${oid}`).on('child_added', snapshot => {
+        messagesRef = fireDb.ref(`chats/${uid}/${oid}`)
+        messagesRef.on('child_added', snapshot => {
             let messageDetails = snapshot.val()
             let messageId = snapshot.key
             commit('addMessage', {
                 messageId, messageDetails
             })
         })
+    },
+    firebaseStopGettingMessages({ commit }) {
+        if (messagesRef) {
+            messagesRef.off('child_added')
+            commit('clearMessages')
+        }
     }
 }
 
