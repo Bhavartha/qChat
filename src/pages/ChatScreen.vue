@@ -2,11 +2,11 @@
    <q-page class="flex column">
       <div class="q-py-md q-px-lg column col justify-end">
          <q-chat-message
-            v-for="(msg,key) in messages"
+            v-for="(msg, key) in messages"
             :key="key"
             :text="[msg.text]"
-            :bg-color="msg.sent?'':'primary'"
-            :text-color="msg.sent?'':'white'"
+            :bg-color="msg.sent ? '' : 'primary'"
+            :text-color="msg.sent ? '' : 'white'"
             :sent="msg.sent"
             text-sanitize
          />
@@ -30,39 +30,46 @@
 </template>
 
 <script>
-
 import { mapActions, mapState } from "vuex";
-import mixinOtherUserDetails from "src/mixins/mixin-otherUserDetails"    
+import mixinOtherUserDetails from "src/mixins/mixin-otherUserDetails";
 
 export default {
-   mixins:[mixinOtherUserDetails],
-    methods:{
-       ...mapActions('store',['firebaseGetMessages','firebaseStopGettingMessages']),
-        sendMsg(){
-            this.messages.push({text:this.newMsg,sent:true})
-            this.newMsg=""
-        },
-    },
+   mixins: [mixinOtherUserDetails],
+   methods: {
+      ...mapActions("store", [
+         "firebaseGetMessages",
+         "firebaseStopGettingMessages",
+         "firebaseSendMessage",
+      ]),
+      sendMsg() {
+         let oid = this.$route.params.oid;
+         this.firebaseSendMessage({
+            text: this.newMsg,
+            oid: oid
+         })
+         this.newMsg=""
+      },
+   },
    data() {
       return {
          newMsg: "",
       };
    },
-   mounted(){
-      let oid = this.$route.params.oid
-      this.firebaseGetMessages(oid)
+   mounted() {
+      let oid = this.$route.params.oid;
+      this.firebaseGetMessages(oid);
    },
-   computed:{
-      ...mapState('store', ['messages'])
+   computed: {
+      ...mapState("store", ["messages"]),
    },
-   destroyed(){
-      this.firebaseStopGettingMessages()
-   }
+   destroyed() {
+      this.firebaseStopGettingMessages();
+   },
 };
 </script>
 
 <style lang="scss" scoped>
-.q-footer{
-    background-color:white;
+.q-footer {
+   background-color: white;
 }
 </style>

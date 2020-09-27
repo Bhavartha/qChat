@@ -143,6 +143,17 @@ const actions = {
             messagesRef.off('child_added')
             commit('clearMessages')
         }
+    },
+    firebaseSendMessage({},payload){
+        let uid = state.userDetails.uid
+        fireDb.ref(`chats/${uid}/${payload.oid}`).push({
+            text: payload.text,
+            sent:true
+        })
+        fireDb.ref(`chats/${payload.oid}/${uid}`).push({
+            text: payload.text,
+            sent:false
+        })
     }
 }
 
