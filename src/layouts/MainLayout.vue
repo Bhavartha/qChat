@@ -5,14 +5,15 @@
             <q-btn
                icon="arrow_back"
                v-go-back.single
-               v-if="getScreen == 'chat' || getScreen == 'profile'"
+               v-if="getScreen != 'home' && getScreen != 'auth'"
                flat
                dense
             />
             <!-- Name -->
             <div class="absolute-center row">
                <q-icon name="chat" size="30px" class="flip-horizontal" />
-               <q-toolbar-title>qChat</q-toolbar-title>
+               <q-toolbar-title v-if="this.$route.fullPath.includes('/chat')">{{otherUserDetails.name}}</q-toolbar-title>
+               <q-toolbar-title v-else>qChat</q-toolbar-title>
             </div>
             <q-space />
             <q-btn
@@ -32,8 +33,11 @@
 
 <script>
 import {mapState} from 'vuex'
+import mixinOtherUserDetails from "src/mixins/mixin-otherUserDetails"    
+
 
 export default {
+   mixins:[mixinOtherUserDetails],
    data() {
       return {};
    },

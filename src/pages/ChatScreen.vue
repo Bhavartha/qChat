@@ -1,6 +1,6 @@
 <template>
    <q-page class="flex column">
-      <div class="q-py-md q-px-lg column col">
+      <div class="q-py-md q-px-lg column col justify-end">
          <q-chat-message
             v-for="(msg,key) in messages"
             :key="key"
@@ -32,8 +32,10 @@
 <script>
 
 import { mapActions, mapState } from "vuex";
+import mixinOtherUserDetails from "src/mixins/mixin-otherUserDetails"    
 
 export default {
+   mixins:[mixinOtherUserDetails],
     methods:{
        ...mapActions('store',['firebaseGetMessages','firebaseStopGettingMessages']),
         sendMsg(){
