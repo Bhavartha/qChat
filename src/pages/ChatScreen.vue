@@ -1,6 +1,9 @@
 <template>
-   <q-page class="flex column">
-      <div class="q-py-md q-px-lg column col justify-end">
+   <q-page class="flex column chatPage" ref="chatPage">
+      <div
+         class="q-py-md q-px-lg column col justify-end"
+         :class="{ invisible: hideMsg }"
+      >
          <q-chat-message
             v-for="(msg, key) in messages"
             :key="key"
@@ -12,16 +15,17 @@
          />
       </div>
       <q-footer>
-         <q-form @submit.prevent="sendMsg">
+         <q-form @submit="sendMsg">
             <q-input
                color="primary"
                outlined
                v-model="newMsg"
+               ref="newMsg"
                label="Message"
                class="q-my-sm q-mx-lg"
             >
                <template v-slot:append>
-                  <q-icon name="send" color="primary" />
+                  <q-btn flat round dense icon="send" color="primary" type="submit" @click="sendMsg"/>
                </template>
             </q-input>
          </q-form>
@@ -42,17 +46,35 @@ export default {
          "firebaseSendMessage",
       ]),
       sendMsg() {
+         if (this.newMsg == "") return;
          let oid = this.$route.params.oid;
          this.firebaseSendMessage({
             text: this.newMsg,
-            oid: oid
-         })
-         this.newMsg=""
+            oid: oid,
+         });
+         this.newMsg = "";
+      },
+      scrollToBottom() {
+         let chatPage = this.$refs.chatPage.$el;
+         setTimeout(() => {
+            window.scrollTo(0, chatPage.scrollHeight);
+         }, 20);
+      },
+   },
+   watch: {
+      messages(val) {
+         if (Object.keys(val).length) {
+            this.scrollToBottom();
+            setTimeout(() => {
+               this.hideMsg = false;
+            }, 20);
+         }
       },
    },
    data() {
       return {
          newMsg: "",
+         hideMsg: true,
       };
    },
    mounted() {
