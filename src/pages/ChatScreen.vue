@@ -8,8 +8,8 @@
             v-for="(msg, key) in messages"
             :key="key"
             :text="[msg.text]"
-            :bg-color="msg.sent ? '' : 'primary'"
-            :text-color="msg.sent ? '' : 'white'"
+            :bg-color="msg.sent ? 'secondary' : 'primary'"
+            text-color="white"
             :sent="msg.sent"
             text-sanitize
          />
