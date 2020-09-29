@@ -2,21 +2,10 @@
 
 Cross platform and easy to use Chat App
 
-## Install the dependencies
-```bash
-npm install
-```
+## Start Using
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
-```
+[Website](https://q-chat.netlify.app)
 
+[Download for Windows](https://workupload.com/file/72PdQPDXSyr)
 
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+[Download for Linux](https://workupload.com/file/2xfUmQ5wCWN)
