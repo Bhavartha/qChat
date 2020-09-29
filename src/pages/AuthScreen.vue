@@ -1,11 +1,11 @@
 <template>
    <q-page class="flex">
       <div class="my-card full-width q-pa-md absolute-center">
-         <q-tabs v-model="tab" dense class="bg-grey-3" align="justify" narrow-indicator>
+         <q-tabs v-model="tab" dense align="justify" narrow-indicator>
             <q-tab name="login" label="Login" />
             <q-tab name="register" label="Register" />
          </q-tabs>
-         <q-tab-panels animated v-model="tab">
+         <q-tab-panels animated v-model="tab" class="bg-secondary">
             <q-tab-panel name="login">
                <auth-component :tab="tab" />
             </q-tab-panel>
@@ -34,5 +34,8 @@ export default {
 .my-card{
    max-width: 500px;
    height: 100%;
+}
+.q-tab-panel{
+   color: #fff;
 }
 </style>

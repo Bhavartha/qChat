@@ -16,25 +16,28 @@ if (process.env.PROD) {
 
 let mainWindow
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 600,
+    width: 500,
+    height: 800,
+    minHeight: 600,
+    minWidth: 360,
     useContentSize: true,
     webPreferences: {
       // Change from /quasar.conf.js > electron > nodeIntegration;
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: process.env.QUASAR_NODE_INTEGRATION,
       nodeIntegrationInWorker: process.env.QUASAR_NODE_INTEGRATION,
-
+      devTools: !process.env.PROD 
+      
       // More info: /quasar-cli/developing-electron-apps/electron-preload-script
       // preload: path.resolve(__dirname, 'electron-preload.js')
     }
   })
-
+  mainWindow.setMenuBarVisibility(false)
   mainWindow.loadURL(process.env.APP_URL)
 
   mainWindow.on('closed', () => {
