@@ -21,7 +21,6 @@
                icon="perm_identity"
                v-if="!!userDetails.uid && getScreen=='home'"
                flat
-               dense
             />
          </q-toolbar>
       </q-header>
@@ -64,4 +63,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.q-page-container{
+   background-color: $secondary;
+}
 </style>

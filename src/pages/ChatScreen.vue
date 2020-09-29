@@ -8,7 +8,7 @@
             v-for="(msg, key) in messages"
             :key="key"
             :text="[msg.text]"
-            :bg-color="msg.sent ? 'secondary' : 'primary'"
+            :bg-color="msg.sent ? 'msgsent' : 'msgreceived'"
             text-color="white"
             :sent="msg.sent"
             text-sanitize
@@ -17,7 +17,7 @@
       <q-footer>
          <q-form @submit="sendMsg">
             <q-input
-               color="primary"
+               color="white"
                outlined
                v-model="newMsg"
                ref="newMsg"
@@ -25,7 +25,14 @@
                class="q-my-sm q-mx-lg"
             >
                <template v-slot:append>
-                  <q-btn flat round dense icon="send" color="primary" type="submit" @click="sendMsg"/>
+                  <q-btn
+                     flat
+                     round
+                     dense
+                     icon="send"
+                     type="submit"
+                     @click="sendMsg"
+                  />
                </template>
             </q-input>
          </q-form>
@@ -92,6 +99,6 @@ export default {
 
 <style lang="scss" scoped>
 .q-footer {
-   background-color: white;
+   background-color:$secondary;
 }
 </style>

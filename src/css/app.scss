@@ -1,1 +1,20 @@
 // app global css in SCSS form
+// $msgsent   : #1f2831;
+// $msgreceived  : #34404c;
+
+.text-msgsent {
+    color: #f04b4b;
+}
+.bg-msgsent {
+    background: #f04b4b;
+}
+.text-msgreceived {
+    color: #797676;
+}
+.bg-msgreceived {
+    background: #797676;
+}
+
+* {
+    font-size: 1.05rem;
+}
