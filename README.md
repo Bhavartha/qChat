@@ -18,4 +18,4 @@ Cross platform and easy to use Chat App
 
 [Download for Linux](https://workupload.com/file/2xfUmQ5wCWN)
 
-[Download for Android](https://a3.files.diawi.com/app-file/lpW9yKunplDkF0TJMjki.apk)
+[Download for Android](https://srv-store6.gofile.io/download/TeeBHA/qChat.apk)
